@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="libraryApp">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="LibraryController">
+    <center>
+
+    <h2>Library Categories</h2>
+    <div ng-repeat="item in library">
+        <strong>{{ item.category }}:</strong>
+        <input type="number" ng-model="item.count" min="0">
+    </div>
+
+    <h3>Add New Category</h3>
+    <form ng-submit="addCategory()">
+        <input type="text" ng-model="newCategory" placeholder="Category" required>
+        <input type="number" ng-model="newCount" placeholder="Count" required min="0">
+        <button type="submit">Add</button>
+    </form>
+    <p ng-show="errorMessage" style="color: red;">{{ errorMessage }}</p>
+
+    <script>
+        angular.module('libraryApp', []).controller('LibraryController', function ($scope) {
+            $scope.library = [{ category: 'Fiction', count: 120 }, { category: 'Non-Fiction', count: 80 }, { category: 'Science', count: 150 }, { category: 'Mathematics', count: 70 }];
+            $scope.addCategory = function () {
+                if ($scope.library.some(item => item.category.toLowerCase() === $scope.newCategory.toLowerCase())) {
+                    $scope.errorMessage = 'Category already exists!';
+                } else {
+                    $scope.library.push({ category: $scope.newCategory, count: $scope.newCount });
+                    $scope.newCategory = $scope.newCount = $scope.errorMessage = '';
+                }
+            };
+        });
+    </script>
+</center>
+</body>
+</html>
