@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h2>College Management System</h2>
+    
+    <label>Course Name: <input type="text" id="courseName"></label>
+    <label>Credits: <input type="number" id="courseCredits"></label>
+    <button onclick="addCourse()">Add Course</button>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Course ID</th>
+                <th>Name</th>
+                <th>Credits</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="courseTable">
+        </tbody>
+    </table>
+
+    <script>
+        let courses = [];
+        let courseId = 1;
+        
+        function addCourse() {
+            let name = document.getElementById('courseName').value;
+            let credits = document.getElementById('courseCredits').value;
+            if (name && credits) {
+                courses.push({ id: courseId++, name, credits });
+                
+                displayCourses();
+          
+            }
+        }
+        
+        function deleteCourse(id) {
+            courses = courses.filter(course => course.id !== id);
+            displayCourses();
+        }
+        
+        function displayCourses() {
+            let table = document.getElementById('courseTable');
+            table.innerHTML = '';
+            courses.forEach(course => {
+                table.innerHTML += `<tr>
+                    <td>${course.id}</td>
+                    <td>${course.name}</td>
+                    <td>${course.credits}</td>
+                    <td><button onclick="deleteCourse(${course.id})">Delete</button></td>
+                </tr>`;
+            });
+        }
+    </script>
+</body>
+</html>
